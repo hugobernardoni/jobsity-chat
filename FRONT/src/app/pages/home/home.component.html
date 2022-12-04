@@ -1,0 +1,11 @@
+<h4 class="choose-chatroom">Hello <strong>{{userService.currentUser.username}}</strong></h4>
+<ul>
+  <li><button (click)="goToPage('room')">
+      <span>Create Room</span>
+    </button></li>
+  <li><button (click)="goToPage('chat')">
+      <span>Go Chats</span>
+    </button></li>
+</ul>
+
+<button type="button" class="bg bg-danger logout" href="#" (click)="logout()">Logout</button>  
