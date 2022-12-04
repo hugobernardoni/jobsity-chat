@@ -1,0 +1,16 @@
+version: '3.4'
+
+networks:
+  network:
+    driver: bridge
+
+services:  
+  db:
+    image: "mcr.microsoft.com/mssql/server"
+    environment:
+      SA_PASSWORD: "#Chat#Job"
+      ACCEPT_EULA: "Y"
+    networks:
+      - network      
+    ports:
+      - "1433:1433"
