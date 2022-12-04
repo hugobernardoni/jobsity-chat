@@ -4,7 +4,19 @@ networks:
   network:
     driver: bridge
 
-services:  
+services:
+  api:
+    image: ${DOCKER_REGISTRY-}jobsityapi
+    build:
+      context: .
+      dockerfile: JobSity.API/Dockerfile    
+    ports:
+      - "80"
+    restart: on-failure
+    networks:
+      - network
+    depends_on:      
+      - db 
   db:
     image: "mcr.microsoft.com/mssql/server"
     environment:
@@ -14,3 +26,22 @@ services:
       - network      
     ports:
       - "1433:1433"
+  client:
+    build:
+      context: ../FRONT
+      dockerfile: Dockerfile
+    depends_on: 
+      - api
+    networks:
+      - network      
+    ports:
+      - "4200:80"
+  proxy:
+    build: 
+      context: ../nginx-proxy
+      dockerfile: Dockerfile
+    ports: 
+      - "8200:80"
+    networks:
+      - network      
+    restart: always

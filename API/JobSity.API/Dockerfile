@@ -8,6 +8,9 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["JobSity.API/JobSity.API.csproj", "JobSity.API/"]
+COPY ["JobSity.DAO/JobSity.DAO.csproj", "JobSity.DAO/"]
+COPY ["JobSity.Model/JobSity.Model.csproj", "JobSity.Model/"]
+COPY ["JobSity.Repositories/JobSity.Repositories.csproj", "JobSity.Repositories/"]
 RUN dotnet restore "JobSity.API/JobSity.API.csproj"
 COPY . .
 WORKDIR "/src/JobSity.API"
