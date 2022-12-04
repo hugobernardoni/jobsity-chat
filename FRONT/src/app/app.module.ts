@@ -6,6 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ChatComponent } from './pages/chat/chat.component';
 import { HomeComponent } from './pages/home/home.component';
 import { RoomComponent } from './pages/room/room.component';
 import { HttpConfigInterceptor } from './_interceptors/tokenInterceptor';
@@ -14,7 +15,8 @@ import { HttpConfigInterceptor } from './_interceptors/tokenInterceptor';
   declarations: [
     AppComponent,
     HomeComponent,
-    RoomComponent
+    RoomComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,

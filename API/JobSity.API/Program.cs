@@ -85,6 +85,8 @@ services.AddAuthentication(x =>
 services.AddAutoMapper(typeof(MappingProfile));
 services.AddScoped(typeof(IEntityBaseRepositoryAsync<>), typeof(EntityBaseRepositoryAsync<>));
 services.AddScoped<IUserService, UserService>();
+services.AddTransient<ChatHubService<ChatHub>>();
+
 
 var app = builder.Build();
 

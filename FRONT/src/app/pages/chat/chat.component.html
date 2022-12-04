@@ -1,0 +1,54 @@
+﻿<form [formGroup]="form" (ngSubmit)="sendMessage()">
+  <div class="container col-md-12 center">
+    <header class="text-center">
+      <h2 class="display-4 text-black py-1">JobSity Chat</h2>
+      <div>
+        <h4 class="choose-chatroom">Hello <strong>{{userService.currentUser.username}}</strong>, choose a chatroom:</h4>
+        <div class="select">
+          <select class="chatroom-select" formControlName="chatRoomSelect" (change)="changeChatRoom()">
+            <option [ngValue]="room.id" *ngFor="let room of rooms">{{room.name}}</option>
+          </select>
+        </div>
+        <button type="button" class="bg logout" href="#" (click)="home()">Home</button>
+      </div>
+      <div class="clearfix"></div>
+    </header>
+
+    <div class="container-not-found" *ngIf="chatRoomId == ''">
+      <p class="text-center">please, Select a room</p>
+    </div>
+
+    <div *ngIf="rooms.length > 0 && chatRoomId != ''">
+      <div class="container-not-found" *ngIf="chats.length == 0">
+        <p class="text-center">No messages found in this chat room</p>
+      </div>
+      <ng-container *ngFor="let item of chats">
+        <div class="container" *ngIf="!checkIfOwnMessage(item)">
+          <b>{{item.username}}</b>
+          <img *ngIf="item.userId == ''" src="/assets/images/chat-bot.jpg">
+          <img *ngIf="item.userId != ''" src="/assets/images/avatar.png" alt="Avatar">
+          <p>{{item.message}}</p>
+          <span class="time-right">{{getFormattedDate(item.timeStamp)}}</span>
+        </div>
+
+        <div class="container darker" *ngIf="checkIfOwnMessage(item)">
+          <img *ngIf="item.userId == ''" src="/assets/images/chat-bot.jpg">
+          <img *ngIf="item.userId != ''" src="/assets/images/avatar.png" alt="Avatar" class="right">
+          <p>{{item.message}}</p>
+          <span class="time-right">{{getFormattedDate(item.timeStamp)}}</span>
+        </div>
+      </ng-container>
+      <div class="bg-light">
+        <div class="input-group">
+          <input type="text" type="message" autofocus formControlName="message" placeholder="Type a message"
+            aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light input-chat">
+          <div class="input-group-append">
+            <button id="button-addon2" type="button" class="btn btn-link" (click)="sendMessage()"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+  </div>
+</form>

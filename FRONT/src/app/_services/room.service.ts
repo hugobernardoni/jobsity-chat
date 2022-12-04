@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { UserInputModel } from '../model/userInputModel';
 import { RoomInputModel } from '../model/roomInputModel';
+import { RoomViewModel } from '../model/roomViewModel';
 
 @Injectable({
     providedIn: 'root'
@@ -16,7 +17,11 @@ import { RoomInputModel } from '../model/roomInputModel';
 
     create(userInput: RoomInputModel) {
       return this.http.post(this.baseUrl + 'create', userInput)
-    }     
+    }   
+    
+    getRooms() {
+        return this.http.get<RoomViewModel[]>(`${this.baseUrl}`)
+    }
     
   }
   

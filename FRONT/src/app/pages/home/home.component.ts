@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ChatSignalRService } from 'src/app/_services/chatsignalr.service';
 import { UserService } from 'src/app/_services/user.service';
 
 @Component({
@@ -9,17 +10,18 @@ import { UserService } from 'src/app/_services/user.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(public userService: UserService, private router: Router) { }
+  constructor(public userService: UserService, private router: Router, private chatSignalRService: ChatSignalRService) { }
 
   ngOnInit() {
   }
 
-  goToPage(pageName:string){
+  goToPage(pageName: string) {
     this.router.navigate([`${pageName}`]);
   }
 
   logout() {
-    this.userService.logout();   
+    this.userService.logout();
+    this.chatSignalRService.stopConnection();
     this.goToPage('login');
   }
 
