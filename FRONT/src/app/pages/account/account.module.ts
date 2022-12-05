@@ -5,12 +5,14 @@ import { CommonModule } from '@angular/common';
 import { AccountRoutingModule } from './account-routing.module';
 import { LoginComponent } from './login.component';
 import { RegisterComponent } from './register.component';
+import { NgxLoadingModule } from 'ngx-loading';
 
 @NgModule({
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        AccountRoutingModule
+        AccountRoutingModule,
+        NgxLoadingModule.forRoot({})
     ],
     declarations: [
         LoginComponent,

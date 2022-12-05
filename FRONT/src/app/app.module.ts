@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxLoadingModule } from 'ngx-loading';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,7 +24,8 @@ import { HttpConfigInterceptor } from './_interceptors/tokenInterceptor';
     HttpClientModule,
     AppRoutingModule,
     NgbModule,
-    ReactiveFormsModule     
+    ReactiveFormsModule,
+    NgxLoadingModule.forRoot({}),   
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true }

@@ -36,9 +36,11 @@ export class LoginComponent implements OnInit {
     get f() { return this.form.controls; }
 
     async onSubmit() {
+        this.loading = true;
         this.submitted = true;
 
         if (this.form.invalid) {
+            this.loading = false;
             return;
         }
 
