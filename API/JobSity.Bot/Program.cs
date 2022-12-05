@@ -18,7 +18,7 @@ namespace JobSity.Bot
 
         static void Main(string[] args)
         {
-            string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");            
 
             if (string.IsNullOrWhiteSpace(environment))
                 environment = "Development";
@@ -28,6 +28,7 @@ namespace JobSity.Bot
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Path.Combine(AppContext.BaseDirectory))
                 .AddJsonFile("appsettings.json", optional: true);
+            
             if (environment == "Development")
             {
                 builder.AddJsonFile(
@@ -35,10 +36,8 @@ namespace JobSity.Bot
                         optional: true
                     );
             }
-            else
-            {
-                builder.AddJsonFile($"appsettings.{environment}.json", optional: false);
-            }
+
+            Console.WriteLine("builder: "+ builder);
 
             Configuration = builder.Build();
 
@@ -49,6 +48,9 @@ namespace JobSity.Bot
 
                     var serviceClientSettingsConfig = Configuration.GetSection("RabbitMq");
                     var serviceClientSettings = serviceClientSettingsConfig.Get<RabbitMqConfiguration>();
+
+                    Console.WriteLine("serviceClientSettings: " + serviceClientSettingsConfig);
+
                     services.Configure<RabbitMqConfiguration>(serviceClientSettingsConfig);
                     if (serviceClientSettings.Enabled)
                     {
