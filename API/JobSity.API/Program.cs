@@ -3,7 +3,10 @@ using JobSity.API.Mapping;
 using JobSity.API.Services.Abstract;
 using JobSity.API.Services.Implementations;
 using JobSity.DAO;
+using JobSity.Messaging.Receiver;
+using JobSity.Messaging.Sender;
 using JobSity.Model.Models;
+using JobSity.Model.Models.Messaging;
 using JobSity.Repositories.Abstract;
 using JobSity.Repositories.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,6 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Configuration;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -86,6 +90,15 @@ services.AddAutoMapper(typeof(MappingProfile));
 services.AddScoped(typeof(IEntityBaseRepositoryAsync<>), typeof(EntityBaseRepositoryAsync<>));
 services.AddScoped<IUserService, UserService>();
 services.AddTransient<ChatHubService<ChatHub>>();
+
+var serviceClientSettingsConfig = builder.Configuration.GetSection("RabbitMq");
+var serviceClientSettings = serviceClientSettingsConfig.Get<RabbitMqConfiguration>();
+services.Configure<RabbitMqConfiguration>(serviceClientSettingsConfig);
+if (serviceClientSettings.Enabled)
+{
+    services.AddScoped<IStockRequestSender, StockRequestSender>();
+    services.AddHostedService<StockResponseReceiver>();
+}
 
 
 var app = builder.Build();

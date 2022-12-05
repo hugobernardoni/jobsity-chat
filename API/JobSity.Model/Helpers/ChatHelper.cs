@@ -8,8 +8,6 @@ namespace JobSity.Model.Helpers
 {
     public class ChatHelper
     {
-        public static readonly List<string> COMMANDS = new List<string>() { "stock" };
-
         public static bool IsCommand(string message)
         {
             if (!message.StartsWith("/"))
@@ -23,9 +21,11 @@ namespace JobSity.Model.Helpers
 
         public static string GetValidCommandMessage(string message)
         {
+            List<string> COMMANDS = new List<string>() { "stock" };
+
             var command = GetCommandFromMessage(message);
 
-            if (COMMANDS.Contains(command))
+            if (command.Contains("stock"))
             {
                 var commandValue = message.Split('=')[1];
                 return commandValue;

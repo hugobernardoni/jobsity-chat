@@ -47,7 +47,7 @@ export class RegisterComponent implements OnInit {
         try {
             let data = await firstValueFrom(this.userService.register(userInputModel));
             alert("user saved");
-            this.router.navigate(['/'], { relativeTo: this.route });
+            this.router.navigate(['/login'], { relativeTo: this.route });
         }
         catch (ex: any) {
             alert(ex.error);
