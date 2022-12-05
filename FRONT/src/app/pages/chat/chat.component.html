@@ -25,14 +25,14 @@
       <ng-container *ngFor="let item of chats">
         <div class="container" *ngIf="!checkIfOwnMessage(item)">
           <b>{{item.username}}</b>
-          <img *ngIf="item.userId == ''" src="/assets/images/chat-bot.jpg">
+          <img *ngIf="item.userId == ''" src="/assets/images/bot.png">
           <img *ngIf="item.userId != ''" src="/assets/images/avatar.png" alt="Avatar">
           <p>{{item.message}}</p>
           <span class="time-right">{{getFormattedDate(item.timeStamp)}}</span>
         </div>
 
         <div class="container darker" *ngIf="checkIfOwnMessage(item)">
-          <img *ngIf="item.userId == ''" src="/assets/images/chat-bot.jpg">
+          <img *ngIf="item.userId == ''" src="/assets/images/bot.png">
           <img *ngIf="item.userId != ''" src="/assets/images/avatar.png" alt="Avatar" class="right">
           <p>{{item.message}}</p>
           <span class="time-right">{{getFormattedDate(item.timeStamp)}}</span>
