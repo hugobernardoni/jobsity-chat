@@ -34,3 +34,4 @@ You must have *docker* installed on your operating system (Linux, Windows or Mac
 - Run the application via `docker.compose.yml`
 - Limit of 50 messages per chat
 - Authentication of users with .NET identity
+- Unit Tests
