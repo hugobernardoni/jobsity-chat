@@ -89,6 +89,7 @@ services.AddAuthentication(x =>
 services.AddAutoMapper(typeof(MappingProfile));
 services.AddScoped(typeof(IEntityBaseRepositoryAsync<>), typeof(EntityBaseRepositoryAsync<>));
 services.AddScoped<IUserService, UserService>();
+services.AddScoped<IChatService, ChatService>();
 services.AddTransient<ChatHubService<ChatHub>>();
 
 var serviceClientSettingsConfig = builder.Configuration.GetSection("RabbitMq");

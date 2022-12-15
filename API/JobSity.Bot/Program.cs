@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
+using System.Net.Http.Headers;
 
 namespace JobSity.Bot
 {
@@ -44,7 +45,8 @@ namespace JobSity.Bot
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddScoped<IChatService, ChatService>();
+
+                    services.AddHttpClient<IChatService, ChatService>();
 
                     var serviceClientSettingsConfig = Configuration.GetSection("RabbitMq");
                     var serviceClientSettings = serviceClientSettingsConfig.Get<RabbitMqConfiguration>();

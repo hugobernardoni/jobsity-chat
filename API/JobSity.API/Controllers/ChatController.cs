@@ -32,9 +32,7 @@ namespace JobSity.API.Controllers
             var chats = _chatService.FindBy(x => x.RoomId.ToString() == roomId)
                 .OrderByDescending(x => x.TimeStamp)
                 .Take(50)
-                .ToList();
-
-            chats = chats.OrderBy(x => x.TimeStamp).ToList();
+                .ToList();            
 
             var chatViewModel = _mapper.Map<List<ChatViewModel>>(chats);
 

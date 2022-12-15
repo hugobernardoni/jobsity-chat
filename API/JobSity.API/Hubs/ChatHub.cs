@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using JobSity.API.Services.Abstract;
 using JobSity.API.ViewModels;
 using JobSity.Messaging.Sender;
 using JobSity.Model.Helpers;
@@ -7,6 +8,7 @@ using JobSity.Model.Models;
 using JobSity.Model.Models.Messaging;
 using JobSity.Repositories.Abstract;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.IdentityModel.Tokens;
 
 namespace JobSity.API.Hubs
 {
@@ -16,20 +18,26 @@ namespace JobSity.API.Hubs
         private readonly IMapper _mapper;
         private readonly ChatHubService<ChatHub> _hubMethods;
         private readonly IStockRequestSender _stockRequestSender;
+        private readonly IChatService _chatService;
 
         public ChatHub(ChatHubService<ChatHub> hubMethods,
                       IEntityBaseRepositoryAsync<Chat> chatRepository,
                       IMapper mapper,
-                      IStockRequestSender stockRequestSender)
+                      IStockRequestSender stockRequestSender,
+                      IChatService chatService)
         {
             _mapper = mapper;           
             _chatRepository = chatRepository;            
             _hubMethods = hubMethods;
             _stockRequestSender = stockRequestSender;
+            _chatService = chatService;
         }
 
         public async Task SendMessage(ChatInputModel chatInputModel)
         {
+            if (string.IsNullOrEmpty(chatInputModel.Message))
+                return;
+
             var chat = _mapper.Map<Chat>(chatInputModel);
             chat.UserId = this.CurrentUser.UserId;
             chat.TimeStamp = DateTime.Now;
@@ -41,9 +49,9 @@ namespace JobSity.API.Hubs
             try
             {
 
-                if (ChatHelper.IsCommand(chat.Message))
+                if (_chatService.IsCommand(chat.Message))
                 {
-                    var command = ChatHelper.GetValidCommandMessage(chat.Message);
+                    var command = _chatService.GetValidCommandMessage(chat.Message);
                     var stockRequestMessage = new StockRequestMessage
                     {
                         RoomId = chatInputModel.RoomId,

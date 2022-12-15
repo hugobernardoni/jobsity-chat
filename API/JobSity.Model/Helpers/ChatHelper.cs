@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace JobSity.Model.Helpers
@@ -10,36 +11,30 @@ namespace JobSity.Model.Helpers
     {
         public static bool IsCommand(string message)
         {
-            if (!message.StartsWith("/"))
-                return false;
+            var regex = new Regex($"^/stock=").Matches(message);
 
-            if (message.Split(' ').Count() > 1 || message.Split('=').Count() != 2)
-                throw new ApplicationException("Unrecognized bot command. Please use \"/{command}={value}\"");
+            if (regex.Count > 0)
+                return true;
 
-            return true;
+            regex = new Regex($"(?<=/)(.*?)(?==)").Matches(message);
+
+            if (regex.Count > 0)
+                throw new ApplicationException($"Command '{message}' not allowed");
+
+            return false;
         }
 
         public static string GetValidCommandMessage(string message)
         {
-            List<string> COMMANDS = new List<string>() { "stock" };
 
-            var command = GetCommandFromMessage(message);
+            var regex = new Regex($"(?<=/stock=).+").Matches(message);
 
-            if (command.Contains("stock"))
+            if (regex.Count > 0)
             {
-                var commandValue = message.Split('=')[1];
-                return commandValue;
+                return regex.First().Value;
             }
 
-            throw new ApplicationException($"Command '{command}' not allowed");
-        }
-
-        private static string GetCommandFromMessage(string message)
-        {
-            var command = message.Split('=').First();
-            command = message.Substring(1);
-
-            return command;
-        }
+            throw new ApplicationException($"Command '{message}' not allowed");
+        }        
     }
 }

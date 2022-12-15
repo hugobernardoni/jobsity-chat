@@ -4,8 +4,10 @@ namespace JobSity.Model.Helpers.InputModels
 {
     public class UserLoginInputModel
     {
-        public string Username { get; set; }
+        [Required(ErrorMessage = "username is required")]
+        public string Username { get; set; }        
 
+        [Required(ErrorMessage = "password is required")]
         public string Password { get; set; }
     }
 }
